@@ -1,7 +1,4 @@
-const prompt = require('prompt-sync');
-// Using memoization to improve performance
-const memo = {};
-
+// const prompt = require('prompt-sync');
 function fibonacci(n) {
     if (n <= 0) {
         return "Invalid input. Please enter a positive integer.";
@@ -9,19 +6,20 @@ function fibonacci(n) {
         return 0;
     } else if (n === 2) {
         return 1;
-    } else if (memo[n]) {
-        // Return memoized result if available
-        return memo[n];
     } else {
-        // Calculate Fibonacci value and memoize the result
-        memo[n] = fibonacci(n - 1) + fibonacci(n - 2);
-        return memo[n];
+        return fibonacci(n - 1) + fibonacci(n - 2);
     }
 }
 
-// Get user input for the position in the Fibonacci series
-const position = parseInt(prompt("Enter the position in the Fibonacci series:"));
+const readline = require('readline');
 
-// Call the recursive function and print the result
-const result = fibonacci(position);
-console.log(`The Fibonacci value at position ${position} is: ${result}`);
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+rl.question('Enter the position in the Fibonacci series: ', (position) => {
+    const result = fibonacci(parseInt(position));
+    console.log(`The Fibonacci value at position ${position} is: ${result}`);
+    rl.close();
+});
